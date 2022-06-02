@@ -75,11 +75,12 @@ public class TransactionFrame extends JFrame{
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
 
-                if(descriptionTF.getText().isBlank() || sumTF.getText().isBlank()){
-                    JOptionPane.showMessageDialog(TransactionFrame.this, "Pola tekstowe muszą być wypełnione", "Error", JOptionPane.ERROR_MESSAGE);
-                }else {
+                if(descriptionTF.getText().isBlank() || sumTF.getText().isBlank() || !isDouble(sumTF.getText())){
+                    JOptionPane.showMessageDialog(TransactionFrame.this, "Pola tekstowe muszą być wypełnione (i to poprawnie ;) )", "Error", JOptionPane.ERROR_MESSAGE);
+                }else if(Double.parseDouble(sumTF.getText()) < 0){
+                    JOptionPane.showMessageDialog(TransactionFrame.this, "Suma nie może być ujemna", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
                     if(reduceRB.isSelected() && increaseRB.isSelected()){
                         JOptionPane.showMessageDialog(TransactionFrame.this, "Wybierz jeden typ operacji", "Error", JOptionPane.ERROR_MESSAGE);
                     }else if (!reduceRB.isSelected() && !increaseRB.isSelected()){
@@ -250,5 +251,17 @@ public class TransactionFrame extends JFrame{
         });
     }
 
+    private boolean isDouble(String string)
+    {
+        try
+        {
+            Double.parseDouble(string);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+        return true;
+    }
 
 }

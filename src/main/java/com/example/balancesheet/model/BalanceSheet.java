@@ -2,6 +2,7 @@ package com.example.balancesheet.model;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,14 +23,18 @@ public class BalanceSheet {
     @Column(name = "claimsSum")
     private Double claimsSum = 0.0;
 
+    @Column(name = "date")
+    private LocalDate creationDate;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "balanceSheet")
     private Set<AssetAccount> assets = new HashSet<AssetAccount>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "balanceSheet")
     private Set<ClaimsAccount> claims = new HashSet<ClaimsAccount>();
 
-    public BalanceSheet(String entityName) {
+    public BalanceSheet(String entityName, LocalDate creationDate) {
         this.entityName = entityName;
+        this.creationDate = creationDate;
     }
 
     public BalanceSheet() {}
@@ -64,6 +69,14 @@ public class BalanceSheet {
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Double getAssetSum() {

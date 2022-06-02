@@ -7,6 +7,8 @@ import com.example.balancesheet.repo.AssetAccountRepo;
 import com.example.balancesheet.repo.ClaimsAccountRepo;
 import com.example.balancesheet.service.AssetAccountService;
 import com.example.balancesheet.service.BalanceSheetService;
+import com.itextpdf.text.DocumentException;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Component
@@ -52,12 +55,13 @@ public class MainFrame extends JFrame{
         createClaimsList();
         setVisible(true);
         transactionFrame.addListenerToSubmit();
-        //transactionFrame.onCreate(assetAccountRepo.findById(1L));
         generujBilansButton.addActionListener(new ActionListener() {
+            @SneakyThrows
             @Override
             public void actionPerformed(ActionEvent e) {
                 balanceSheetService.getClosingSums(balanceSheet);
-                JOptionPane.showMessageDialog(MainFrame.this, "Bilans został wygenerowany! ;) (kill me -> gupi projekt)", "Infomacja", JOptionPane.INFORMATION_MESSAGE);
+                balanceSheetService.generateBalanceInPdf(balanceSheet);
+                JOptionPane.showMessageDialog(MainFrame.this, "Bilans został wygenerowany! ;)", "Infomacja", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
                 System.exit(1);
             }
@@ -78,13 +82,11 @@ public class MainFrame extends JFrame{
         int index=0;
 
         for(AssetAccount a : assetAccounts){
-            //gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 0;
             gbc.gridy = y;
             JLabel label = new JLabel(a.getName());
             assetsPanel.add(label,gbc);
 
-            //gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 1;
             gbc.gridy = y;
             buttonAssets[index] = new JButton("Zaksieguj");
@@ -115,13 +117,11 @@ public class MainFrame extends JFrame{
         int y = 0;
 
         for(ClaimsAccount a : claimsAccounts){
-            //gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 0;
             gbc.gridy = y;
             JLabel label = new JLabel(a.getName());
             claimsPanel.add(label,gbc);
 
-            //gbc.anchor = GridBagConstraints.WEST;
             gbc.gridx = 1;
             gbc.gridy = y;
             JButton button = new JButton("Zaksięguj");
