@@ -1,10 +1,12 @@
 package com.example.balancesheet.swingView;
 
 import com.example.balancesheet.model.AssetAccount;
+import com.example.balancesheet.model.BalanceSheet;
 import com.example.balancesheet.model.ClaimsAccount;
 import com.example.balancesheet.repo.AssetAccountRepo;
 import com.example.balancesheet.repo.ClaimsAccountRepo;
 import com.example.balancesheet.service.AssetAccountService;
+import com.example.balancesheet.service.BalanceSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.batch.JobLauncherApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -30,13 +32,18 @@ public class MainFrame extends JFrame{
     @Autowired
     private TransactionFrame transactionFrame;
 
+    @Autowired
+    private BalanceSheetService balanceSheetService;
+
     private JLabel claims;
     private JPanel assetsPanel;
     private JPanel claimsPanel;
     private JPanel mainPanel;
     private JLabel assets;
+    private JButton generujBilansButton;
 
-    public void onCreate() throws Exception {
+
+    public void onCreate(BalanceSheet balanceSheet){
         setContentPane(mainPanel);
         setTitle("Generator Bilansu");
         setSize(900,650);
@@ -46,6 +53,15 @@ public class MainFrame extends JFrame{
         setVisible(true);
         transactionFrame.addListenerToSubmit();
         //transactionFrame.onCreate(assetAccountRepo.findById(1L));
+        generujBilansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                balanceSheetService.getClosingSums(balanceSheet);
+                JOptionPane.showMessageDialog(MainFrame.this, "Bilans został wygenerowany! ;) (kill me -> gupi projekt)", "Infomacja", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                System.exit(1);
+            }
+        });
     }
 
     public void createAssetList() {

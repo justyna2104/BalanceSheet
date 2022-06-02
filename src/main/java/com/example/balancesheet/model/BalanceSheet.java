@@ -16,6 +16,12 @@ public class BalanceSheet {
     @Column(name = "entityName")
     private String entityName;
 
+    @Column(name = "assetSum")
+    private Double assetSum = 0.0;
+
+    @Column(name = "claimsSum")
+    private Double claimsSum = 0.0;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "balanceSheet")
     private Set<AssetAccount> assets = new HashSet<AssetAccount>();
 
@@ -58,5 +64,21 @@ public class BalanceSheet {
 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
+    }
+
+    public Double getAssetSum() {
+        return assetSum;
+    }
+
+    public void setAssetSum(Double assetSum) {
+        this.assetSum = assetSum;
+    }
+
+    public Double getClaimsSum() {
+        return claimsSum;
+    }
+
+    public void setClaimsSum(Double claimsSum) {
+        this.claimsSum = claimsSum;
     }
 }

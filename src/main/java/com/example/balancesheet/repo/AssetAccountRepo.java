@@ -9,4 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface AssetAccountRepo extends JpaRepository<AssetAccount,Long> {
+    AssetAccount findByName(String name);
+    //AssetAccount findById(long id);
 }

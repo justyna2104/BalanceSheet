@@ -75,7 +75,7 @@ public class TransactionFrame extends JFrame{
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
+                //System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
 
                 if(descriptionTF.getText().isBlank() || sumTF.getText().isBlank()){
                     JOptionPane.showMessageDialog(TransactionFrame.this, "Pola tekstowe muszą być wypełnione", "Error", JOptionPane.ERROR_MESSAGE);
@@ -86,14 +86,15 @@ public class TransactionFrame extends JFrame{
                         JOptionPane.showMessageDialog(TransactionFrame.this, "Wybierz jeden typ operacji", "Error", JOptionPane.ERROR_MESSAGE);
                     }else if(reduceRB.isSelected()){
                         if(account instanceof AssetAccount){
+                            AssetAccount accountDB = assetAccountRepo.findByName(((AssetAccount) account).getName());
                             CreditTransaction creditTransaction = new CreditTransaction();
                             creditTransaction.setDescription(descriptionTF.getText());
                             creditTransaction.setSum(Double.parseDouble(sumTF.getText()));
                             creditTransaction.setPostDate(LocalDateTime.now());
-                            creditTransaction.setAssetAccount((AssetAccount) account);
+                            creditTransaction.setAssetAccount(accountDB);
                             creditTransactionRepo.save(creditTransaction);
-                            ((AssetAccount) account).getCreditTransactions().add(creditTransaction);
-                            assetAccountRepo.save((AssetAccount) account);
+                            accountDB.getCreditTransactions().add(creditTransaction);
+                            assetAccountRepo.save(accountDB);
 
                             if(listOfAccountsCB.getSelectedItem() instanceof AssetAccount){
                                 DebitTransaction debitTransaction = new DebitTransaction();
@@ -125,14 +126,15 @@ public class TransactionFrame extends JFrame{
                             }
 
                         }else if (account instanceof ClaimsAccount){
+                            ClaimsAccount claimsAccountDB = claimsAccountRepo.findByName(((ClaimsAccount) account).getName());
                             DebitTransaction debitTransaction = new DebitTransaction();
                             debitTransaction.setDescription(descriptionTF.getText());
                             debitTransaction.setSum(Double.parseDouble(sumTF.getText()));
                             debitTransaction.setPostDate(LocalDateTime.now());
-                            debitTransaction.setClaimsAccount((ClaimsAccount) account);
+                            debitTransaction.setClaimsAccount(claimsAccountDB);
                             debitTransactionRepo.save(debitTransaction);
-                            ((ClaimsAccount) account).getDebitTransactions().add(debitTransaction);
-                            claimsAccountRepo.save((ClaimsAccount) account);
+                            claimsAccountDB.getDebitTransactions().add(debitTransaction);
+                            claimsAccountRepo.save(claimsAccountDB);
 
                             if(listOfAccountsCB.getSelectedItem() instanceof ClaimsAccount){
                                 CreditTransaction creditTransaction = new CreditTransaction();
@@ -163,16 +165,17 @@ public class TransactionFrame extends JFrame{
                             }
 
                         }
-                    }else if(increaseRB.isSelected()){ //TUTAJJJJJJ
+                    }else if(increaseRB.isSelected()){ //TUTAJJJJJJ :)
                         if(account instanceof AssetAccount){
+                            AssetAccount accountDB = assetAccountRepo.findByName(((AssetAccount) account).getName());
                             DebitTransaction debitTransaction = new DebitTransaction();
                             debitTransaction.setDescription(descriptionTF.getText());
                             debitTransaction.setSum(Double.parseDouble(sumTF.getText()));
                             debitTransaction.setPostDate(LocalDateTime.now());
-                            debitTransaction.setAssetAccount((AssetAccount) account);
+                            debitTransaction.setAssetAccount(accountDB);
                             debitTransactionRepo.save(debitTransaction);
-                            ((AssetAccount) account).getDebitTransactions().add(debitTransaction);
-                            assetAccountRepo.save((AssetAccount) account);
+                            accountDB.getDebitTransactions().add(debitTransaction);
+                            assetAccountRepo.save(accountDB);
 
                             if(listOfAccountsCB.getSelectedItem() instanceof AssetAccount){
                                 CreditTransaction creditTransaction = new CreditTransaction();
@@ -203,14 +206,15 @@ public class TransactionFrame extends JFrame{
                             }
 
                         }else if(account instanceof ClaimsAccount){
+                            ClaimsAccount claimsAccountDB = claimsAccountRepo.findByName(((ClaimsAccount) account).getName());
                             CreditTransaction creditTransaction = new CreditTransaction();
                             creditTransaction.setDescription(descriptionTF.getText());
                             creditTransaction.setSum(Double.parseDouble(sumTF.getText()));
                             creditTransaction.setPostDate(LocalDateTime.now());
-                            creditTransaction.setClaimsAccount((ClaimsAccount) account);
+                            creditTransaction.setClaimsAccount(claimsAccountDB);
                             creditTransactionRepo.save(creditTransaction);
-                            ((ClaimsAccount) account).getCreditTransactions().add(creditTransaction);
-                            claimsAccountRepo.save((ClaimsAccount) account);
+                            claimsAccountDB.getCreditTransactions().add(creditTransaction);
+                            claimsAccountRepo.save(claimsAccountDB);
 
                             if(listOfAccountsCB.getSelectedItem() instanceof AssetAccount){
                                 DebitTransaction debitTransaction = new DebitTransaction();

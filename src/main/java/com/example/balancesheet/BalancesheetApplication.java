@@ -4,7 +4,9 @@ import com.example.balancesheet.model.AssetAccount;
 import com.example.balancesheet.model.BalanceSheet;
 import com.example.balancesheet.repo.*;
 import com.example.balancesheet.service.AssetAccountService;
+import com.example.balancesheet.service.BalanceSheetService;
 import com.example.balancesheet.service.ClaimsAccountService;
+import com.example.balancesheet.swingView.GetEntityNameFrame;
 import com.example.balancesheet.swingView.MainFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,7 +24,7 @@ public class BalancesheetApplication implements CommandLineRunner {
 //    @Autowired
 //    private AppConfig appConfig;
 
-    @Autowired
+/*    @Autowired
     private BalanceSheetRepo balanceSheetRepo;
 
     @Autowired
@@ -44,7 +46,10 @@ public class BalancesheetApplication implements CommandLineRunner {
     private CreditTransactionRepo creditTransactionRepo;
 
     @Autowired
-    private MainFrame mainFrame;
+    private MainFrame mainFrame;*/
+
+    @Autowired
+    private GetEntityNameFrame getEntityNameFrame;
 
     public static void main(String[] args) {
         //SpringApplication.run(BalancesheetApplication.class, args);
@@ -58,7 +63,7 @@ public class BalancesheetApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        debitTransactionRepo.deleteAll();
+/*        debitTransactionRepo.deleteAll();
         creditTransactionRepo.deleteAll();
         assetAccountRepo.deleteAll();
         claimsAccountRepo.deleteAll();
@@ -68,6 +73,7 @@ public class BalancesheetApplication implements CommandLineRunner {
         BalanceSheet bs = balanceSheetRepo.findByEntityName(balanceSheet.getEntityName());
         assetAccountService.addAssetAccounts(bs);
         claimsAccountService.addClaimsAccounts(bs);
-        mainFrame.onCreate();
+        mainFrame.onCreate(bs);*/
+        getEntityNameFrame.onCreate();
     }
 }

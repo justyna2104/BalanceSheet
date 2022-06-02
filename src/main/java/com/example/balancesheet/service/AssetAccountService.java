@@ -3,6 +3,8 @@ package com.example.balancesheet.service;
 import com.example.balancesheet.config.AppConfig;
 import com.example.balancesheet.model.AssetAccount;
 import com.example.balancesheet.model.BalanceSheet;
+import com.example.balancesheet.model.CreditTransaction;
+import com.example.balancesheet.model.DebitTransaction;
 import com.example.balancesheet.repo.AssetAccountRepo;
 import com.example.balancesheet.repo.BalanceSheetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +31,18 @@ public class AssetAccountService {
         });
     }
 
-    public AssetAccount findById(long id) throws Exception {
-        AssetAccount assetAccount = assetAccountRepo.findById(id).orElseThrow(() -> new Exception());
-        return assetAccount;
-    }
+    public double getClosingSum(AssetAccount assetAccount){
+        double closingSum = 0.0;
 
+        for (DebitTransaction debitTransaction : assetAccount.getDebitTransactions()){
+            closingSum += debitTransaction.getSum();
+        }
+
+        for(CreditTransaction creditTransaction : assetAccount.getCreditTransactions()){
+            closingSum -= creditTransaction.getSum();
+        }
+        assetAccount.setClosingSum(closingSum);
+        assetAccountRepo.save(assetAccount);
+        return closingSum;
+    }
 }

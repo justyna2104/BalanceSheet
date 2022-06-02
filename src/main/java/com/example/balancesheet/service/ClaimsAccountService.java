@@ -1,9 +1,7 @@
 package com.example.balancesheet.service;
 
 import com.example.balancesheet.config.AppConfig;
-import com.example.balancesheet.model.AssetAccount;
-import com.example.balancesheet.model.BalanceSheet;
-import com.example.balancesheet.model.ClaimsAccount;
+import com.example.balancesheet.model.*;
 import com.example.balancesheet.repo.AssetAccountRepo;
 import com.example.balancesheet.repo.BalanceSheetRepo;
 import com.example.balancesheet.repo.ClaimsAccountRepo;
@@ -28,5 +26,23 @@ public class ClaimsAccountService {
             balanceSheet.getClaims().add(claimsAccount);
             balanceSheetRepo.save(balanceSheet);
         });
+    }
+
+    public double getClosingSum(ClaimsAccount claimsAccount){
+        double closingSum = 0.0;
+
+        for(CreditTransaction creditTransaction : claimsAccount.getCreditTransactions()){
+            closingSum += creditTransaction.getSum();
+           // System.out.println(creditTransaction.getDescription() + " " + closingSum);
+        }
+
+        for (DebitTransaction debitTransaction : claimsAccount.getDebitTransactions()){
+            closingSum -= debitTransaction.getSum();
+            //System.out.println(debitTransaction.getDescription() + " " + closingSum);
+        }
+        claimsAccount.setClosingSum(closingSum);
+        claimsAccountRepo.save(claimsAccount);
+        //System.out.println(claimsAccount.getName() + " " + closingSum);
+        return closingSum;
     }
 }
