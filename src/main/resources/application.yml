@@ -1,0 +1,26 @@
+config:
+  accountNames:
+    assets:
+      - Wartości niematerialne i prawne
+      - Rzeczowe aktywa trwałe
+      - Należności długoterminowe
+      - Inwestycje długoterminowe
+      - Długoterminowe rozliczenia międzyokresowe
+      - Zapasy
+      - Należności krótkoterminowe
+      - Inwestycje krótkoterminowe
+      - Krótkoterminowe rozliczenia międzyokresowe
+      - Należne wpłaty na kapitał (fundusz) podstawowy
+      - Udziały (akcje) własne
+    claims:
+      - Kapitał (fundusz) podstawowy
+      - Kapitał (fundusz) zapasowy
+      - Kapitał (fundusz) z aktualizacji wyceny
+      - Pozostałe kapitały (fundusze) rezerwowe
+      - Zysk (strata) z lat ubiegłych
+      - Zysk (strata) netto
+      - Odpisy z zysku netto w ciągu roku obrotowego (wielkość ujemna)
+      - Rezerwy na zobowiązania
+      - Zobowiązania długoterminowe
+      - Zobowiązania krótkoterminowe
+      - Rozliczenia międzyokresowe
